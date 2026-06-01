@@ -34,8 +34,8 @@
           <label>OTP Code:</label>
           <div class="otp-code-large">
             <span class="otp-value">{{ message.otp }}</span>
-            <button @click="copyOtp" class="copy-otp-btn" :disabled="isCopying">
-              {{ isCopying ? 'Copying...' : 'Copy OTP' }}
+            <button @click="copyOtp" class="copy-otp-btn" :disabled="isCopyingOtp">
+              {{ isCopyingOtp ? 'Copying...' : 'Copy OTP' }}
             </button>
           </div>
         </div>
@@ -58,6 +58,7 @@ import { defineProps, defineEmits } from 'vue'
 import { copyToClipboard, formatDate } from '@/utils/helpers'
 import { ref } from 'vue'
 const isCopying = ref(false)
+const isCopyingOtp = ref(false)
 const props = defineProps({
   message: {
     type: Object,
@@ -82,12 +83,12 @@ const copyNumber = async () => {
 }
 
 const copyOtp = async () => {
-  isCopying.value = true
+  isCopyingOtp.value = true
   if (props.message && props.message.otp) {
     await copyToClipboard(props.message.otp)
   }
   setTimeout(() => {
-    isCopying.value = false
+    isCopyingOtp.value = false
   }, 2000)
 }
 
