@@ -20,7 +20,9 @@
         <div class="detail-item">
           <label>Phone Number:</label>
           <span class="number">{{ message.numberRef }}</span>
-          <button @click="copyNumber" class="copy-detail-btn">Copy</button>
+          <button @click="copyNumber" class="copy-detail-btn" :disabled="isCopying">
+            {{ isCopying ? 'Copying...' : 'Copy' }}
+          </button>
         </div>
         
         <div class="detail-item">
@@ -32,7 +34,9 @@
           <label>OTP Code:</label>
           <div class="otp-code-large">
             <span class="otp-value">{{ message.otp }}</span>
-            <button @click="copyOtp" class="copy-otp-btn">Copy OTP</button>
+            <button @click="copyOtp" class="copy-otp-btn" :disabled="isCopying">
+              {{ isCopying ? 'Copying...' : 'Copy OTP' }}
+            </button>
           </div>
         </div>
         
@@ -52,7 +56,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
 import { copyToClipboard, formatDate } from '@/utils/helpers'
-
+const isCopying = ref(false)
 const props = defineProps({
   message: {
     type: Object,
@@ -67,15 +71,23 @@ const close = () => {
 }
 
 const copyNumber = async () => {
+  isCopying.value = true
   if (props.message) {
     await copyToClipboard(props.message.numberRef)
   }
+  setTimeout(() => {
+    isCopying.value = false
+  }, 2000)
 }
 
 const copyOtp = async () => {
+  isCopying.value = true
   if (props.message && props.message.otp) {
     await copyToClipboard(props.message.otp)
   }
+  setTimeout(() => {
+    isCopying.value = false
+  }, 2000)
 }
 
 const formatFullDate = (date) => {
