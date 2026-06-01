@@ -20,7 +20,7 @@ export const useNumberStore = defineStore('number', () => {
         isLoading.value = true
         try {
             const data = await api.getNumbers()
-            numbers.value = data
+            numbers.value = data.data
             error.value = null
             return data
         } catch (err) {
@@ -35,7 +35,7 @@ export const useNumberStore = defineStore('number', () => {
         isLoading.value = true
         try {
             const data = await api.getNumberDetail(id)
-            currentNumber.value = data
+            currentNumber.value = data.data
             return data
         } catch (err) {
             error.value = err.message
@@ -50,7 +50,7 @@ export const useNumberStore = defineStore('number', () => {
         try {
             const data = await api.seedNumbers()
             await fetchNumbers()
-            return data
+            return data.data
         } catch (err) {
             error.value = err.message
             throw err

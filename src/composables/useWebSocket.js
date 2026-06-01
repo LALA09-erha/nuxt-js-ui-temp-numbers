@@ -10,12 +10,12 @@ export function useWebSocket(url) {
 
         ws.value.onopen = () => {
             isConnected.value = true
-            console.log('WebSocket connected')
+
         }
 
         ws.value.onclose = () => {
             isConnected.value = false
-            console.log('WebSocket disconnected')
+
         }
 
         ws.value.onerror = (error) => {

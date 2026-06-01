@@ -4,6 +4,8 @@ import App from './App.vue'
 import router from './router'
 
 import './styles/global.css'
+import 'flag-icons/css/flag-icons.min.css'
+
 
 const app = createApp(App)
 const pinia = createPinia()

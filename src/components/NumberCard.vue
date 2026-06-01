@@ -1,8 +1,8 @@
 <template>
   <div class="number-card" :class="{ inactive: !number.isActive }">
-    <div class="card-header">
+    <div class="card-header" @click="$emit('view', number._id)">
       <div class="country-info">
-        <span class="country-flag">{{ getFlagEmoji(number.isoCode) }}</span>
+        <span class="fi fis" :class="`fi-${number.isoCode?.toLowerCase()}`" style="font-size: 24px;"></span>
         <span class="country-name">{{ number.countryName }}</span>
       </div>
       <div class="status-badge" :class="{ active: number.isActive }">
@@ -13,13 +13,16 @@
     <div class="phone-number">
       <span class="number">{{ number.number }}</span>
       <button class="copy-btn" @click="copyNumber">
-        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg v-if="isCopied" class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <svg v-else class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
         </svg>
       </button>
     </div>
     
-    <div class="card-footer">
+    <div class="card-footer" @click="$emit('view', number._id)">
       <div class="stats">
         <span class="messages-count">
           📨 {{ number.messageCount }}/15 messages
@@ -36,21 +39,16 @@
         >
           View Messages
         </button>
-        <button 
-          class="btn-generate" 
-          @click="$emit('generate', number._id)"
-          :disabled="number.messageCount >= 15"
-        >
-          Generate OTP
-        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
 import { copyToClipboard } from '@/utils/helpers'
+import { ref } from 'vue'
+
+const isCopied = ref(false)
 
 const props = defineProps({
   number: {
@@ -61,19 +59,22 @@ const props = defineProps({
 
 const emit = defineEmits(['view', 'generate'])
 
-const getFlagEmoji = (countryCode) => {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map(char => 127397 + char.charCodeAt())
-  return String.fromCodePoint(...codePoints)
-}
+
 
 const copyNumber = async () => {
-  await copyToClipboard(props.number.number)
+  try {
+    await copyToClipboard(props.number.number)
+    isCopied.value = true
+    setTimeout(() => {
+      isCopied.value = false
+    }, 2000)
+  } catch (error) {
+    console.error('Failed to copy:', error)
+  }
 }
 
 const formatDate = (date) => {
+  if (!date) return 'N/A'
   return new Date(date).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric'
@@ -82,6 +83,7 @@ const formatDate = (date) => {
 </script>
 
 <style scoped>
+/* Style Anda tetap sama */
 .number-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 20px;

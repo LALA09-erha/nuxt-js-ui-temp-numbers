@@ -46,3 +46,16 @@ npm run build
 ```sh
 npm run lint
 ```
+
+
+
+<!-- 
+  1. pada saat update
+      https://nuxt-js-api-temp-number.vercel.app/api/messages/update?numberId=6a1c27dc86773a23a88cde59
+    max harus 15, kalo udah 15 harus hapus yang paling lama
+  2. di home, harus bisa di click card nya 
+  3. ada benderanya
+  4. hapus tombol yang tidak perlu
+  5. kasih ada pilihan nomor lain , ketika di detail
+
+ -->

@@ -1,10 +1,10 @@
 <template>
   <div class="home">
     <div class="hero">
-      <h1 class="title">📱 Temp Number</h1>
+      <h1 class="title"> 📱 SMS Generator</h1>
       <p class="subtitle">Receive SMS online instantly - Free temporary phone numbers</p>
       
-      <div class="actions">
+      <!-- <div class="actions">
         <button @click="refreshNumbers" class="btn-refresh" :disabled="numberStore.isLoading">
           🔄 Refresh Numbers
         </button>
@@ -14,7 +14,7 @@
         <button @click="generateRandomMessage" class="btn-generate" :disabled="numberStore.isLoading">
           ✨ Generate Random Message
         </button>
-      </div>
+      </div> -->
     </div>
     
     <div v-if="numberStore.isLoading" class="loading">
@@ -68,7 +68,6 @@ const showToast = (message, type = 'success') => {
 const refreshNumbers = async () => {
   try {
     await numberStore.fetchNumbers()
-    showToast('Numbers refreshed successfully!')
   } catch (error) {
     showToast('Failed to refresh numbers', 'error')
   }
@@ -141,9 +140,9 @@ onUnmounted(() => {
 .title {
   font-size: 48px;
   font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #667eea;
+  font-family: 'Poppins', sans-serif;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   margin-bottom: 16px;
 }
 

@@ -3,8 +3,8 @@
     <div v-if="messages.length === 0" class="empty-state">
       <div class="empty-icon">📭</div>
       <p>No messages yet</p>
-      <button @click="$emit('generate')" class="btn-generate-first">
-        Generate First Message
+      <button @click="generateMessage" class="btn-generate-first">
+        Refresh to Update Messages
       </button>
     </div>
     
@@ -56,6 +56,10 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['generate', 'messageClick'])
+
+const generateMessage = () => {
+  window.location.reload()
+}
 
 const formatTime = (date) => {
   return formatTimeAgo(date)

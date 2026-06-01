@@ -27,7 +27,7 @@ export const useMessageStore = defineStore('message', () => {
         isLoading.value = true
         try {
             const data = await api.getAllMessages()
-            messages.value = data
+            messages.value = data.data
             return data
         } catch (err) {
             error.value = err.message
@@ -41,7 +41,7 @@ export const useMessageStore = defineStore('message', () => {
         isLoading.value = true
         try {
             const data = await api.getNumberMessages(numberId)
-            currentMessages.value = data
+            currentMessages.value = data.data
             return data
         } catch (err) {
             error.value = err.message
