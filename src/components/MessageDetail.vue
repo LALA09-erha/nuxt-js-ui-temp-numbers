@@ -56,6 +56,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
 import { copyToClipboard, formatDate } from '@/utils/helpers'
+import { ref } from 'vue'
 const isCopying = ref(false)
 const props = defineProps({
   message: {
