@@ -41,9 +41,12 @@
                     📋 Copy Number
               </button>
             </div>
-            <button @click="updateMessages" class="btn-update">
-              🔄 Update Messages
+            <button @click="updateMessages" class="btn-update" v-if="isUpdating"  disabled>
+              🔄 Updating Messages...
             </button> 
+            <button @click="updateMessages" class="btn-update" v-else >
+              🔄 Update Messages
+            </button>
             <!-- try another number button and redirect to home -->
             <button @click="goBack" class="btn-generate-message">
               🔢 View Other Numbers
@@ -111,7 +114,7 @@ const router = useRouter()
 const numberStore = useNumberStore()
 const messageStore = useMessageStore()
 const selectedMessage = ref(null)
-const isCopying = ref(false)
+const {isCopying , isUpdating} = ref(false)
 
 // Get numberId from route params (reactive)
 const numberId = computed(() => route.params.id)
@@ -160,9 +163,12 @@ const generateMessage = async () => {
 
 const updateMessages = async () => {
   try {
+    isUpdating.value = true
     await messageStore.updateMessages(numberId.value)
+    setTimeout(() => {
+      isUpdating.value = false
+    }, 10000)
     await loadData()
-    console.log('Messages updated successfully')
   } catch (error) {
     console.error('Failed to update messages:', error)
   }
