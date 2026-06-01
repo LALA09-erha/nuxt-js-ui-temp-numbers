@@ -114,7 +114,8 @@ const router = useRouter()
 const numberStore = useNumberStore()
 const messageStore = useMessageStore()
 const selectedMessage = ref(null)
-const {isCopying , isUpdating} = ref(false)
+const isCopying = ref(false)
+const isUpdating = ref(false)
 
 // Get numberId from route params (reactive)
 const numberId = computed(() => route.params.id)
@@ -163,6 +164,7 @@ const generateMessage = async () => {
 
 const updateMessages = async () => {
   try {
+    // index-DCTnViHC.js:9 Failed to update messages: TypeError: Cannot set properties of undefined (setting 'value')
     isUpdating.value = true
     await messageStore.updateMessages(numberId.value)
     setTimeout(() => {
